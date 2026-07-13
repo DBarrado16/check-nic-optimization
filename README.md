@@ -106,6 +106,8 @@ MIT
 
 # check-nic-optimization (English)
 
+## This is a tool that is part of a full suite of Windows features; you can find it at https://github.com/DBarrado16/windows-optimization-kit
+
 PowerShell script that checks (and optionally fixes) the configuration of
 the active network adapter -Ethernet or WiFi, any vendor- that commonly
 causes real-world throughput to sit well below the negotiated LinkSpeed.
