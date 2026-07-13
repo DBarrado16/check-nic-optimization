@@ -99,3 +99,107 @@ Pull requests bienvenidas.
 ## Licencia
 
 MIT
+
+---
+
+# check-nic-optimization (English)
+
+PowerShell script that checks (and optionally fixes) the configuration of
+the active network adapter -Ethernet or WiFi, any vendor- that commonly
+causes real-world throughput to sit well below the negotiated LinkSpeed.
+Covers known issues with EEE/Green Ethernet, power-saving modes,
+mis-negotiated duplex, and transmit/receive buffers below the card's
+supported maximum.
+
+## Quick usage
+
+1. Download `check-nic-optimizationV6Beta.ps1`
+2. Open PowerShell **as Administrator**
+3. Go to the folder where you saved it:
+   ```powershell
+   cd C:\path\to\folder
+   ```
+4. Allow running scripts for this session:
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process -Force
+   ```
+5. Run it:
+   - Check only (makes no changes):
+     ```powershell
+     .\check-nic-optimizationV6Beta.ps1
+     ```
+   - Check and auto-fix:
+     ```powershell
+     .\check-nic-optimizationV6Beta.ps1 -Fix
+     ```
+
+If you'd rather not repeat step 4 every session, run this once instead
+(no admin required):
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+## What it checks
+
+**Ethernet:**
+- Ultra Low Power Mode
+- EEE / Green Ethernet
+- Reduce Link Speed for power savings
+- Reduce Speed On Power Down
+- Speed & Duplex (forces the highest-speed Full Duplex option available,
+  never Half Duplex or Auto Negotiation)
+- Transmit/receive buffers (raises them to the maximum the specific card
+  supports)
+
+**WiFi:**
+- WiFi power saving (Power Saving Mode)
+- Preferred band (recommends 5GHz if available)
+- Transmit power
+- MIMO power saving / SMPS (informational only, there's no universally
+  "correct" value here)
+
+## Reading the output
+
+| Symbol | Meaning |
+|---|---|
+| `[OK]` green | The property is already at the optimal value |
+| `[MAL]` red | Misconfigured; `-Fix` corrects it automatically if a valid option exists |
+| `[--]` gray | This property doesn't exist on this particular driver (normal, not a bug) |
+| `[i]` yellow | Informational, not flagged as an error |
+
+## Important notes
+
+- **WiFi and router proximity:** even if the preferred band is set to
+  5GHz, the actual connection may stay on 2.4GHz if signal is weak
+  (5GHz has much shorter range). The preferred band change only takes
+  effect the next time the adapter negotiates from scratch, not on an
+  already-active connection. Disconnect and reconnect to force
+  renegotiation.
+
+- **Driver updates:** if Windows or you update the network driver,
+  these settings may reset to factory defaults. Re-run the script after
+  any driver update or Windows reinstall.
+
+- **Active VPN during testing:** if you have a VPN (OpenVPN,
+  Tailscale...) connected while running a speed test, throughput may be
+  limited by the VPN server, not your network. Disconnect it for a
+  clean measurement.
+
+- **Review the code before running it**, especially with `-Fix`, since
+  it modifies real network adapter configuration. Good practice for any
+  script downloaded from the internet, including this one.
+
+## Contributing
+
+If your driver exposes a property the script doesn't detect or detects
+incorrectly (naming varies quite a bit between vendors, especially on
+WiFi), open an issue with:
+- Adapter vendor and model
+- Exact property name as it appears in Windows
+- Script output
+
+Pull requests welcome.
+
+## License
+
+MIT
