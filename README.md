@@ -1,6 +1,6 @@
 # check-nic-optimization
 
-##Esto es una herramienta que forma parte de un menú entero de funcionalidades de windows, puedes encontrarlo en https://github.com/DBarrado16/windows-optimization-kit
+## Esto es una herramienta que forma parte de un menú entero de funcionalidades de windows, puedes encontrarlo en https://github.com/DBarrado16/windows-optimization-kit
 
 Script de PowerShell que revisa (y opcionalmente corrige) la configuración
 del adaptador de red activo -Ethernet o WiFi, de cualquier fabricante- que
