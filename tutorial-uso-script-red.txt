@@ -1,0 +1,133 @@
+TUTORIAL - check-nic-optimizationV5Beta.ps1
+========================================
+
+SE USA ASÍ:
+------------
+1. Abre PowerShell como administrador
+   (Menú inicio > escribe "PowerShell" > click derecho >
+   "Ejecutar como administrador")
+
+2. Ve a la carpeta donde tienes el script con cd y la ruta completa
+   Ejemplo:
+       cd C:\Users\usuario\Downloads
+
+3. Activa la ejecución de scripts para esta sesión
+       Set-ExecutionPolicy Bypass -Scope Process -Force
+
+4. Ejecuta el script
+   Solo comprobar (no cambia nada):
+       .\check-nic-optimizationV5Beta.ps1
+
+   Comprobar Y corregir automáticamente lo que salga mal:
+       .\check-nic-optimizationV5Beta.ps1 -Fix
+
+Eso es todo. El resto de este documento es la explicación detallada
+de cada paso y cómo interpretar el resultado.
+
+
+QUÉ HACE
+--------
+Revisa la configuración del adaptador de red que tiene salida real a
+internet (el que tiene puerta de enlace, sea cable o WiFi) y detecta
+ajustes de ahorro de energía / velocidad que suelen tapar el rendimiento
+real por debajo de lo que el hardware puede dar. Con -Fix los corrige
+automáticamente.
+
+Funciona en Ethernet y WiFi, y en teoría en cualquier fabricante (Intel,
+Realtek, Broadcom, Killer, Marvell/Aquantia...), aunque en WiFi hay más
+variación de nombres entre marcas que en cable.
+
+
+PASO 1 - DESCARGAR EL ARCHIVO
+------------------------------
+El chat te da un .txt en vez de .ps1 directamente porque el navegador /
+la interfaz bloquea la descarga de scripts ejecutables.
+
+1. Descarga el archivo
+2. En tu carpeta de Descargas, click derecho > Cambiar nombre
+3. Cambia la extensión de .txt a .ps1 en caso de que sea .txt
+   (Windows avisará de que puede quedar inutilizable, dale que sí)
+4. Click derecho sobre el .ps1 > Propiedades > si aparece la casilla
+   "Desbloquear" abajo del todo, márcala > Aceptar
+   (esto pasa porque Windows marca como "de internet" los .ps1
+   descargados y por defecto bloquea su ejecución)
+
+
+PASO 2 - ABRIR POWERSHELL COMO ADMINISTRADOR
+---------------------------------------------
+Menú inicio > escribe "PowerShell" > click derecho >
+"Ejecutar como administrador"
+
+Es necesario ser admin porque el script lee y (si usas -Fix) modifica
+propiedades del driver de red.
+
+
+PASO 3 - PERMITIR EJECUTAR SCRIPTS (solo esta sesión)
+-------------------------------------------------------
+Por defecto Windows bloquea ejecutar scripts .ps1 descargados. Este
+comando lo desbloquea SOLO para la ventana de PowerShell que tienes
+abierta ahora mismo (no cambia nada permanente del sistema):
+
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+
+Si te cansas de escribirlo cada vez, hay una alternativa permanente
+para tu usuario (no hace falta ser admin para que aplique):
+
+    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Con RemoteSigned puedes correr scripts propios o descargados sin firma
+digital siempre que los hayas "Desbloqueado" en Propiedades (paso 1).
+
+
+PASO 4 - NAVEGAR HASTA LA CARPETA DEL SCRIPT
+-----------------------------------------------
+    cd $HOME\Downloads
+
+(o la ruta donde lo hayas guardado)
+
+
+PASO 5 - EJECUTAR
+--------------------
+Solo comprobar, no cambia nada:
+
+    .\check-nic-optimization.ps1
+
+Comprobar Y corregir automáticamente lo que salga mal:
+
+    .\check-nic-optimization.ps1 -Fix
+
+
+CÓMO LEER EL RESULTADO
+-------------------------
+[OK]   en verde  -> esa propiedad ya está en el valor óptimo
+[MAL]  en rojo    -> está mal puesta; con -Fix se corrige sola si el
+                      driver ofrece un valor válido que encaje
+[--]   en gris    -> esa propiedad no existe en este driver concreto.
+                      NO es un error del script, simplemente ese
+                      fabricante no expone esa opción (o la llama de
+                      forma distinta a lo que el script busca)
+
+El script también te dice al principio si detectó un adaptador
+Ethernet o WiFi, y aplica los checks correspondientes a cada tipo.
+
+
+NOTAS IMPORTANTES
+--------------------
+- En WiFi, si tienes la banda preferida en 5GHz pero sigues viendo
+  2.4GHz conectado, puede ser por proximidad al router (el 5GHz tiene
+  mucho menos alcance). Desconecta y reconecta a la red para forzar
+  renegociación; si sigue en 2.4GHz, acércate al router.
+
+- Si actualizas el driver de red manualmente o Windows lo actualiza
+  solo, estos ajustes pueden resetearse a los valores por defecto del
+  fabricante. Vuelve a correr el script tras cualquier actualización
+  de driver o reinstalación de Windows.
+
+- Si tienes una VPN activa (OpenVPN, Tailscale...) durante el
+  speedtest, la velocidad puede verse limitada por el servidor VPN,
+  no por tu red. Desconéctala para hacer una medición limpia.
+
+- El script es tuyo, edítalo libremente. Los patrones de búsqueda
+  (NamePattern) usan comodines "." en vez de tildes literales para
+  que detecten los nombres de Windows tengan o no tilde, así que si
+  añades checks nuevos sigue esa misma lógica.
