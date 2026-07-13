@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.3 - Renombrado
+- Archivo renombrado a `check-nic-optimizationV6Beta.ps1` para dejar claro
+  que es una version en desarrollo activo, sujeta a cambios.
+
 ## v1.0
 - Check inicial para Intel I219-V: Energía ultrabaja, EEE, Velocidad y
   dúplex, búferes de transmisión/recepción.

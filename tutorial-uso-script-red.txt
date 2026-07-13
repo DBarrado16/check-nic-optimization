@@ -1,4 +1,4 @@
-TUTORIAL - check-nic-optimizationV5Beta.ps1
+TUTORIAL - check-nic-optimizationV6Beta.ps1
 ========================================
 
 SE USA ASÍ:
@@ -9,17 +9,17 @@ SE USA ASÍ:
 
 2. Ve a la carpeta donde tienes el script con cd y la ruta completa
    Ejemplo:
-       cd C:\Users\usuario\Downloads
+       cd C:\Users\dbarr\Downloads
 
 3. Activa la ejecución de scripts para esta sesión
        Set-ExecutionPolicy Bypass -Scope Process -Force
 
 4. Ejecuta el script
    Solo comprobar (no cambia nada):
-       .\check-nic-optimizationV5Beta.ps1
+       .\check-nic-optimizationV6Beta.ps1
 
    Comprobar Y corregir automáticamente lo que salga mal:
-       .\check-nic-optimizationV5Beta.ps1 -Fix
+       .\check-nic-optimizationV6Beta.ps1 -Fix
 
 Eso es todo. El resto de este documento es la explicación detallada
 de cada paso y cómo interpretar el resultado.
@@ -43,9 +43,9 @@ PASO 1 - DESCARGAR EL ARCHIVO
 El chat te da un .txt en vez de .ps1 directamente porque el navegador /
 la interfaz bloquea la descarga de scripts ejecutables.
 
-1. Descarga el archivo
+1. Descarga el archivo check-nic-optimizationV6Beta.txt
 2. En tu carpeta de Descargas, click derecho > Cambiar nombre
-3. Cambia la extensión de .txt a .ps1 en caso de que sea .txt
+3. Cambia la extensión de .txt a .ps1
    (Windows avisará de que puede quedar inutilizable, dale que sí)
 4. Click derecho sobre el .ps1 > Propiedades > si aparece la casilla
    "Desbloquear" abajo del todo, márcala > Aceptar
@@ -90,11 +90,11 @@ PASO 5 - EJECUTAR
 --------------------
 Solo comprobar, no cambia nada:
 
-    .\check-nic-optimization.ps1
+    .\check-nic-optimizationV6Beta.ps1
 
 Comprobar Y corregir automáticamente lo que salga mal:
 
-    .\check-nic-optimization.ps1 -Fix
+    .\check-nic-optimizationV6Beta.ps1 -Fix
 
 
 CÓMO LEER EL RESULTADO
